@@ -11,11 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { User, Settings, ShoppingBag, LogOut, Shield } from "lucide-react"
+import { User, Settings, ShoppingBag, LogOut, Shield, Loader2 } from "lucide-react"
 import Link from "next/link"
 
 export function UserMenu() {
-  const { user, isAuthenticated, signOut } = useAuth()
+  const { user, isAuthenticated, isLoading, signOut } = useAuth()
+
+  if (isLoading) {
+    return (
+      <Button variant="ghost" size="sm" disabled>
+        <Loader2 className="w-4 h-4 animate-spin" />
+      </Button>
+    )
+  }
 
   if (!isAuthenticated || !user) {
     return (
@@ -57,19 +65,19 @@ export function UserMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/account" className="flex items-center">
+          <Link href="/profile" className="flex items-center">
             <User className="mr-2 h-4 w-4" />
-            <span>Account</span>
+            <span>Profile</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/account/orders" className="flex items-center">
+          <Link href="/orders" className="flex items-center">
             <ShoppingBag className="mr-2 h-4 w-4" />
             <span>Orders</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/account/settings" className="flex items-center">
+          <Link href="/settings" className="flex items-center">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </Link>
